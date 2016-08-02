@@ -1,0 +1,28 @@
+<div>
+  Some text before anchor. <a href="/example">Example anchor</a> and text after
+  it.
+</div>
+
+<script>
+  function deferNavigation(event) {
+    const log = (msg, ...a) => console.log(`deferNavigation: ${msg}`, ...a);
+    const target = event.target;
+
+    if (target.localName !== 'a') {
+      log('ignore click event, as it does not target anchor');
+      return;
+    }
+
+    event.preventDefault();
+    setTimeout(() => window.location = event.target.href, 1000);
+    log(
+      'default action prevented, navigation to %s was deferred',
+      event.target.href
+    );
+
+    // `return false` is a jQuery convention, it does not prevent default
+    // listener to acting on event.
+  }
+
+  document.querySelector('div').addEventListener('click', deferNavigation);
+</script>
